@@ -1,6 +1,13 @@
 #include <iostream>
 
+struct Struct
+{
+	int i;
+	char c;
+	float f;
+};
+
 int main()
 {
-    std::cout << "Hello World!\n";
+
 }
