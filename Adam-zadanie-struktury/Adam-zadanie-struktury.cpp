@@ -31,7 +31,7 @@ Struct** losowanie(int amnt)
 		already_used.insert(_int);
 		_struct->i = _int;
 
-		_struct->c = distribution_char(engine);
+		_struct->c = (char)distribution_char(engine);
 
 		_struct->f = 1000.0f + (float)n + 1.0f;
 
@@ -51,9 +51,19 @@ void kasowanie(Struct** struct_arr, int amnt)
 	delete[] struct_arr;
 }
 
+int zliczanie(Struct** struct_arr, int amnt, char _char)
+{
+	int found = 0;
+
+	for (int n = 0; n < amnt; n++)
+	{
+		if (struct_arr[n]->c == _char) found++;
+	}
+
+	return found;
+}
+
 int main()
 {
 	Struct** struct_arr = losowanie(10000);
-
-
 }
