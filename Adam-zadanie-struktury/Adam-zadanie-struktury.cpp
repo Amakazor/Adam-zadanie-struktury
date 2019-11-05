@@ -41,6 +41,16 @@ Struct** losowanie(int amnt)
 	return struct_arr;
 }
 
+void kasowanie(Struct** struct_arr, int amnt)
+{
+	for (int n = 0; n < amnt; n++)
+	{
+		delete struct_arr[amnt];
+	}
+
+	delete[] struct_arr;
+}
+
 int main()
 {
 	Struct** struct_arr = losowanie(10000);
