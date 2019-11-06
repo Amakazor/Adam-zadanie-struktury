@@ -1,6 +1,7 @@
 #include <iostream>
 #include <random>
 #include <set>
+#include <time.h>
 
 struct Struct
 {
@@ -49,6 +50,24 @@ void kasowanie(Struct** struct_arr, int amnt)
 	}
 
 	delete[] struct_arr;
+}
+
+void sortowanie(Struct** struct_arr, int amnt)
+{
+	Struct* temp;
+
+	for (int i = 0; i < amnt; i++) 
+	{
+		for (int j = i + 1; j < amnt; j++)
+		{
+			if (struct_arr[j]->i < struct_arr[i]->i) {
+				temp = struct_arr[i];
+				struct_arr[i] = struct_arr[j];
+				struct_arr[j] = temp;
+			}
+		}
+	}
+
 }
 
 int zliczanie(Struct** struct_arr, int amnt, char _char)
