@@ -1,4 +1,7 @@
 #include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
 #include <random>
 #include <set>
 #include <time.h>
@@ -14,7 +17,7 @@ Struct** losowanie(int amnt)
 {
 	std::random_device seed;
 	std::mt19937 engine(seed()); //mersenne_twister_engine
-	std::uniform_int_distribution<> distribution_int(-1000, 9000);
+	std::uniform_int_distribution<> distribution_int(-1000 , 9000);
 	std::uniform_int_distribution<> distribution_char(66, 83); //B-S ASCII
 
 	Struct** struct_arr = new Struct*[amnt];
@@ -46,7 +49,7 @@ void kasowanie(Struct** struct_arr, int amnt)
 {
 	for (int n = 0; n < amnt; n++)
 	{
-		delete struct_arr[amnt];
+		delete struct_arr[n];
 	}
 
 	delete[] struct_arr;
@@ -84,5 +87,52 @@ int zliczanie(Struct** struct_arr, int amnt, char _char)
 
 int main()
 {
-	Struct** struct_arr = losowanie(10000);
+	int n;
+	char x;
+	std::ifstream file;
+	std::string line;
+
+	file.open("inlab01.txt");
+	if (!file.is_open())
+	{
+		return -1;
+	}
+	
+	std::getline(file, line);
+	if (line.empty())
+	{
+		return -1;
+	}
+	std::stringstream line_stream(line);
+	line_stream >> n;
+	line_stream >> x;
+
+	clock_t begin, end;
+	double time_spent;
+	begin = clock();
+
+	Struct* sorted = new Struct[20];
+
+	Struct** struct_arr = losowanie(n);
+	sortowanie(struct_arr, n);
+
+	int n2 = (n > 20) ? 20 : n;
+
+	for (int i = 0; i < n2; i++)
+	{
+		sorted[i] = *struct_arr[i];
+	}
+	int counted = zliczanie(struct_arr, n, x);
+	kasowanie(struct_arr, n);
+
+	end = clock();
+	time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+
+	for (int i = 0; i < n2; i++)
+	{
+		std::cout << "Struktura " << i << ": i wynosi " << sorted[i].i << ", c wynosi " << sorted[i].c << ", f wynosi " << sorted[i].f << '\n';
+	}
+
+	std::cout << '\n' << "Liczba wystapien znaku " << x << " wynosi: " << counted << '\n' << '\n';
+	std::cout << "Czas wykonania wynosi: " << time_spent  << "s" << '\n';
 }
